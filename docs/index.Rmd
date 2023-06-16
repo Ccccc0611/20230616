@@ -1,0 +1,38 @@
+---
+title: "数据的读取及图的绘制和保存"
+author: "蔡莹"
+date: "2023-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,waring=F,message=F)
+```
+
+## 海南空气质量3月3日
+数据由中国环境监测总站的全国城市空气质量实时发布平台得
+```{r}
+d_1 <- read.csv("海南3.3空气质量.csv")
+```
+
+## 查看数据
+数据中第一列是市县，第二列是空气质量综合指数
+共有19个市县，数值越小表示空气质量越好
+```{r}
+library(ggplot2)
+head(d_1)
+ggplot(d_1, aes(x = reorder( 市县, 空气质量综合指数), y = 空气质量综合指数)) +
+  geom_point()+
+  labs(x="市县",y="空气质量综合指数",title="3月3日海南省空气质量综合指数")+
+  theme_bw(base_family = "STHeiti")+
+  theme(axis.text.x=element_text(angle=45,hjust=1,vjust=1),
+  plot.title = element_text(hjust = 0.5))
+ggsave( "3月3日海南各市县空气质量.png",width = 647/90,height = 368/90,dpi=600)
+
+ 
+```
+由图可知，海南岛东南部的市县空气质量相对较好，西部及北部空气质量相对较差。
+19个市县首要污染物都是臭氧，海南地处热带亚热带地区，气温高光照充足，同时西部地区工厂多，机动车尾气、燃煤电厂、石油化工、涂料生产中产生的臭氧过多；东部主要是为迎风坡以景区为主，环境管理的较好，而中部地区较为落后，以农业为主，空气污染也相较少。总的来说和全国相比，海南的空气质量还是比较高的。
+
+
+
